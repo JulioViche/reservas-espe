@@ -1,5 +1,6 @@
 package ec.edu.espe.parking.services.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -38,8 +39,11 @@ public class ZoneServiceImpl implements ZoneService {
 
     private String generateUniqueCode(ZoneType type) {
         String prefix = "ZONE-" + type.name().substring(0, 3) + "-";
-        long count = zoneRepository.countByCodeStartingWith(prefix);
-        return prefix + String.format("%02d", count + 1);
+        int max = zoneRepository.findByCodeStartingWith(prefix).stream()
+                .mapToInt(z -> Integer.parseInt(z.getCode().replace(prefix, "")))
+                .max()
+                .orElse(0);
+        return prefix + String.format("%02d", max + 1);
     }
 
     @Transactional
@@ -56,19 +60,40 @@ public class ZoneServiceImpl implements ZoneService {
             throw new IllegalArgumentException("El nombre de la zona ya existe");
         }
 
-        Zone zone = Zone.builder()
-                .name(request.getName())
-                .description(request.getDescription())
-                .isActive(true)
-                .type(request.getType())
-                .build();
+        Zone zone = new Zone();
+        zone.setName(request.getName());
+        zone.setDescription(request.getDescription());
+        zone.setCode(generateUniqueCode(request.getType()));
+        zone.setActive(true);
+        zone.setType(request.getType());
+        zone.setCreatedAt(LocalDateTime.now());
+        zone.setUpdatedAt(LocalDateTime.now());
 
-        return null;
+        return mapToResponseDto(zoneRepository.save(zone));
     }
 
     @Transactional
     public ZoneResponseDto updateZone(UUID id, ZoneRequestDto request) {
-        return null;
+        Zone zone = zoneRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("La zona con id " + id + " no existe"));
+
+        if (!zone.getName().equals(request.getName()) && zoneRepository.existsByName(request.getName())) {
+            throw new IllegalArgumentException("El nombre de la zona ya existe");
+        }
+
+        zone.setName(request.getName());
+        zone.setDescription(request.getDescription());
+
+        ZoneType previousType = zone.getType();
+        zone.setType(request.getType());
+
+        if (previousType != request.getType()) {
+            zone.setCode(generateUniqueCode(request.getType()));
+        }
+
+        zone.setUpdatedAt(LocalDateTime.now());
+
+        return mapToResponseDto(zoneRepository.save(zone));
     }
 
     @Transactional

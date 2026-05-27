@@ -1,5 +1,6 @@
 package ec.edu.espe.parking.repositories;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,5 +13,5 @@ public interface ZoneRepository extends JpaRepository<Zone, UUID> {
 
     boolean existsByName(String name);
 
-    long countByCodeStartingWith(String prefix);
+    List<Zone> findByCodeStartingWith(String prefix);
 }
