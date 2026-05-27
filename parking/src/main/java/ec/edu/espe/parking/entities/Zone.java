@@ -31,7 +31,7 @@ public class Zone {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(unique = true, nullable = false, length = 3)
+    @Column(unique = true, nullable = false, length = 11)
     private String code;
 
     @Column(unique = true, nullable = false, length = 32)
