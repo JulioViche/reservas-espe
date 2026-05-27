@@ -98,5 +98,9 @@ public class ZoneServiceImpl implements ZoneService {
 
     @Transactional
     public void switchZoneStatus(UUID id) {
+        Zone zone = zoneRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("La zona con id " + id + " no existe"));
+        zone.setActive(!zone.isActive());
+        zone.setUpdatedAt(LocalDateTime.now());
     }
 }
