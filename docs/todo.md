@@ -1,0 +1,3 @@
+- [ ] Crear base de datos
+- [ ] En application.yaml configurar credenciales
+- [ ] En test/ crear una instanciaa de ZonaServicioImpl
