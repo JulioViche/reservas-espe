@@ -8,8 +8,10 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ec.edu.espe.parking.dtos.SpaceResponseDto;
 import ec.edu.espe.parking.dtos.ZoneRequestDto;
 import ec.edu.espe.parking.dtos.ZoneResponseDto;
+import ec.edu.espe.parking.entities.Space;
 import ec.edu.espe.parking.entities.Zone;
 import ec.edu.espe.parking.entities.ZoneType;
 import ec.edu.espe.parking.repositories.ZoneRepository;
@@ -22,6 +24,19 @@ public class ZoneServiceImpl implements ZoneService {
     @Autowired
     private ZoneRepository zoneRepository;
 
+    // TODO: mover a SpaceService cuando se cree
+    private SpaceResponseDto mapToSpaceResponseDto(Space space) {
+        return SpaceResponseDto.builder()
+                .id(space.getId())
+                .code(space.getCode())
+                .description(space.getDescription())
+                .isOccupied(space.isOccupied())
+                .type(space.getType())
+                .createdAt(space.getCreatedAt())
+                .updatedAt(space.getUpdatedAt())
+                .build();
+    }
+
     private ZoneResponseDto mapToResponseDto(Zone zone) {
 
         return ZoneResponseDto.builder()
@@ -31,7 +46,9 @@ public class ZoneServiceImpl implements ZoneService {
                 .description(zone.getDescription())
                 .isActive(zone.isActive())
                 .type(zone.getType())
-                .spaces(zone.getSpaces())
+                .spaces(zone.getSpaces().stream()
+                        .map(this::mapToSpaceResponseDto)
+                        .collect(Collectors.toList()))
                 .createdAt(zone.getCreatedAt())
                 .updatedAt(zone.getUpdatedAt())
                 .build();
