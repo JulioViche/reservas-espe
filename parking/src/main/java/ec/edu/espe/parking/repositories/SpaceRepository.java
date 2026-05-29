@@ -13,5 +13,5 @@ public interface SpaceRepository extends JpaRepository<Space, UUID> {
 
     List<Space> findByZoneId(UUID zoneId);
 
-    List<Space> findByZoneIdAndStatus(UUID zoneId, String status);
+    List<Space> findByZoneIdAndIsOccupied(UUID zoneId, boolean isOccupied);
 }

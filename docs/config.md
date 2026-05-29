@@ -1,4 +1,6 @@
-# Spring Initializr Configuration
+# Configuración del proyecto
+
+## Spring Initializr Configuration
 
 - Spring Boot version: 4.0.6
 - Project languaje: Java
@@ -13,3 +15,15 @@
   - Lombok
   - Validation
   - Postgre SQL Driver
+
+## Database Docker Configuration
+
+```
+docker run -d \
+  --name parking-db \
+  -e POSTGRES_DB=parking \
+  -e POSTGRES_USER=jvc21 \
+  -e POSTGRES_PASSWORD=passwd123 \
+  -p 5432:5432 \
+  postgres:16-alpine
+```

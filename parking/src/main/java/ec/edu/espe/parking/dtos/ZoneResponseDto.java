@@ -4,7 +4,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import ec.edu.espe.parking.entities.Space;
 import ec.edu.espe.parking.entities.ZoneType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,7 +28,7 @@ public class ZoneResponseDto {
 
     private ZoneType type;
 
-    private List<Space> spaces;
+    private List<SpaceResponseDto> spaces;
 
     private LocalDateTime createdAt;
 
