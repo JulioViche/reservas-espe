@@ -1,6 +1,7 @@
 package ec.edu.espe.parking.entities;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -48,7 +49,7 @@ public class Zone {
     private ZoneType type;
 
     @OneToMany(mappedBy = "zone", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Space> spaces;
+    private List<Space> spaces = new ArrayList<>();
 
     @Column
     private LocalDateTime createdAt;
