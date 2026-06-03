@@ -7,7 +7,7 @@ import ec.edu.espe.parking.dtos.SpaceRequestDto;
 import ec.edu.espe.parking.dtos.SpaceResponseDto;
 import ec.edu.espe.parking.entities.SpaceStatus;
 
-public interface StateService {
+public interface SpaceService {
 
     List<SpaceResponseDto> getAllSpaces();
 

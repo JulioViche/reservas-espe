@@ -9,14 +9,14 @@ import ec.edu.espe.parking.dtos.SpaceResponseDto;
 import ec.edu.espe.parking.entities.Space;
 import ec.edu.espe.parking.entities.SpaceStatus;
 import ec.edu.espe.parking.repositories.SpaceRepository;
-import ec.edu.espe.parking.services.StateService;
+import ec.edu.espe.parking.services.SpaceService;
 import ec.edu.espe.parking.utils.UtilsMappers;
 
-public class StateServiceImpl implements StateService {
+public class SpaceServiceImpl implements SpaceService {
     private final SpaceRepository repository;
     private final UtilsMappers mapper;
 
-    public StateServiceImpl(SpaceRepository spaceRepository, UtilsMappers utilsMappers) {
+    public SpaceServiceImpl(SpaceRepository spaceRepository, UtilsMappers utilsMappers) {
         this.repository = spaceRepository;
         this.mapper = utilsMappers;
     }
