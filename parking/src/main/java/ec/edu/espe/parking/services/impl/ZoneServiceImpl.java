@@ -12,9 +12,11 @@ import ec.edu.espe.parking.dtos.SpaceResponseDto;
 import ec.edu.espe.parking.dtos.ZoneRequestDto;
 import ec.edu.espe.parking.dtos.ZoneResponseDto;
 import ec.edu.espe.parking.entities.Space;
+import ec.edu.espe.parking.entities.SpaceStatus;
 import ec.edu.espe.parking.entities.Zone;
 import ec.edu.espe.parking.entities.ZoneType;
 import ec.edu.espe.parking.repositories.ZoneRepository;
+import ec.edu.espe.parking.services.SpaceService;
 import ec.edu.espe.parking.services.ZoneService;
 import jakarta.transaction.Transactional;
 
@@ -23,6 +25,8 @@ public class ZoneServiceImpl implements ZoneService {
 
     @Autowired
     private ZoneRepository zoneRepository;
+
+    private SpaceService spaceService;
 
     // TODO: mover a SpaceService cuando se cree
     private SpaceResponseDto mapToSpaceResponseDto(Space space) {
@@ -61,6 +65,11 @@ public class ZoneServiceImpl implements ZoneService {
                 .max()
                 .orElse(0);
         return prefix + String.format("%02d", max + 1);
+    }
+
+    private boolean validateDeactivation(UUID id) {
+        List<SpaceResponseDto> spaces = spaceService.getSpacesByZoneAndStatus(id, SpaceStatus.OCCUPIED);
+        return spaces.isEmpty();
     }
 
     @Transactional
@@ -117,6 +126,10 @@ public class ZoneServiceImpl implements ZoneService {
     public void switchZoneStatus(UUID id) {
         Zone zone = zoneRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("La zona con id " + id + " no existe"));
+
+        if (zone.isActive() && !validateDeactivation(id))
+            throw new IllegalStateException("No se puede desactivar la zona porque tiene espacios ocupados");
+
         zone.setActive(!zone.isActive());
         zone.setUpdatedAt(LocalDateTime.now());
     }

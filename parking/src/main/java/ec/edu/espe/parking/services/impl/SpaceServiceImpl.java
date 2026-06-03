@@ -13,6 +13,7 @@ import ec.edu.espe.parking.services.SpaceService;
 import ec.edu.espe.parking.utils.UtilsMappers;
 
 public class SpaceServiceImpl implements SpaceService {
+
     private final SpaceRepository repository;
     private final UtilsMappers mapper;
 
@@ -62,8 +63,11 @@ public class SpaceServiceImpl implements SpaceService {
 
     @Override
     public List<SpaceResponseDto> getSpacesByZoneAndStatus(UUID zoneId, SpaceStatus status) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getSpacesByZoneAndStatus'");
+        List<Space> spaces = repository.findByZoneId(zoneId);
+        return spaces.stream()
+                .filter(s -> s.getStatus() == status)
+                .map(mapper::mapToSpaceResponseDto)
+                .collect(Collectors.toList());
     }
 
     @Override
