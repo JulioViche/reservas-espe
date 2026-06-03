@@ -2,6 +2,7 @@ package ec.edu.espe.parking.dtos;
 
 import java.util.UUID;
 
+import ec.edu.espe.parking.entities.SpaceStatus;
 import ec.edu.espe.parking.entities.SpaceType;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -27,4 +28,8 @@ public class SpaceRequestDto {
     @NotNull(message = "El tipo de espacio es obligatorio")
     @Enumerated(EnumType.STRING)
     private SpaceType type;
+
+    @NotNull(message = "El estado del espacio es obligatorio")
+    @Enumerated(EnumType.STRING)
+    private SpaceStatus status;
 }

@@ -3,6 +3,7 @@ package ec.edu.espe.parking.dtos;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import ec.edu.espe.parking.entities.SpaceStatus;
 import ec.edu.espe.parking.entities.SpaceType;
 import ec.edu.espe.parking.entities.Zone;
 import lombok.AllArgsConstructor;
@@ -22,9 +23,11 @@ public class SpaceResponseDto {
 
     private String description;
 
-    private boolean isOccupied;
-
     private SpaceType type;
+
+    private SpaceStatus status;
+
+    private boolean isActive;
 
     private Zone zone;
 

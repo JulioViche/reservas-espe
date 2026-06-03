@@ -30,7 +30,7 @@ public class ZoneServiceImpl implements ZoneService {
                 .id(space.getId())
                 .code(space.getCode())
                 .description(space.getDescription())
-                .isOccupied(space.isOccupied())
+                .isActive(space.isActive())
                 .type(space.getType())
                 .createdAt(space.getCreatedAt())
                 .updatedAt(space.getUpdatedAt())

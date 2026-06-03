@@ -28,6 +28,8 @@ public class ZoneResponseDto {
 
     private ZoneType type;
 
+    private int capacity;
+
     private List<SpaceResponseDto> spaces;
 
     private LocalDateTime createdAt;

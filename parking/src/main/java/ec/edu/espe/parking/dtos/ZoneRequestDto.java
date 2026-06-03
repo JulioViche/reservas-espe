@@ -3,6 +3,8 @@ package ec.edu.espe.parking.dtos;
 import ec.edu.espe.parking.entities.ZoneType;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -27,4 +29,8 @@ public class ZoneRequestDto {
     @NotNull(message = "El tipo de zona es obligatorio")
     @Enumerated(EnumType.STRING)
     private ZoneType type;
+
+    @Min(1)
+    @Max(100)
+    private int capacity;
 }

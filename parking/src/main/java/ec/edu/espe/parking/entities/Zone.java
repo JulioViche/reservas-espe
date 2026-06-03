@@ -15,6 +15,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -47,6 +49,11 @@ public class Zone {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ZoneType type;
+
+    @Min(1)
+    @Max(100)
+    @Column(nullable = false)
+    private int capacity;
 
     @OneToMany(mappedBy = "zone", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Space> spaces = new ArrayList<>();

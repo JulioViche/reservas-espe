@@ -37,12 +37,16 @@ public class Space {
     @Column(nullable = true, length = 256)
     private String description;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private boolean isOccupied;
+    private SpaceStatus status;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private SpaceType type;
+
+    @Column(nullable = false)
+    private boolean isActive;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "zone_id", nullable = false)
