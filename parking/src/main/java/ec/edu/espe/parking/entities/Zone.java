@@ -55,6 +55,7 @@ public class Zone {
     @Column(nullable = false)
     private int capacity;
 
+    @Builder.Default
     @OneToMany(mappedBy = "zone", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Space> spaces = new ArrayList<>();
 
