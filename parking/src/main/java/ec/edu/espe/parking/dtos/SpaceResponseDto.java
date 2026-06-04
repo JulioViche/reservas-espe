@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import ec.edu.espe.parking.entities.SpaceStatus;
 import ec.edu.espe.parking.entities.SpaceType;
-import ec.edu.espe.parking.entities.Zone;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,11 +26,13 @@ public class SpaceResponseDto {
 
     private SpaceStatus status;
 
-    private boolean isActive;
-
-    private Zone zone;
+    private boolean enabled;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
+    private UUID zoneId;
+
+    private String zoneName;
 }

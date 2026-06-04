@@ -24,15 +24,15 @@ public class ZoneResponseDto {
 
     private String description;
 
-    private boolean isActive;
-
     private ZoneType type;
 
     private int capacity;
 
-    private List<SpaceResponseDto> spaces;
+    private boolean enabled;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
+    private List<SpaceResponseDto> spaces;
 }

@@ -43,9 +43,6 @@ public class Zone {
     @Column(nullable = true, length = 256)
     private String description;
 
-    @Column(nullable = false)
-    private boolean isActive;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ZoneType type;
@@ -55,13 +52,16 @@ public class Zone {
     @Column(nullable = false)
     private int capacity;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "zone", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Space> spaces = new ArrayList<>();
+    @Column(nullable = false)
+    private boolean enabled;
 
     @Column
     private LocalDateTime createdAt;
 
     @Column
     private LocalDateTime updatedAt;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "zone", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Space> spaces = new ArrayList<>();
 }

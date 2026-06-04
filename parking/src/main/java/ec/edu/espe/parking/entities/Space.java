@@ -39,22 +39,22 @@ public class Space {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private SpaceStatus status;
+    private SpaceType type;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private SpaceType type;
+    private SpaceStatus status;
 
     @Column(nullable = false)
-    private boolean isActive;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "zone_id", nullable = false)
-    private Zone zone;
+    private boolean enabled;
 
     @Column
     private LocalDateTime createdAt;
 
     @Column
     private LocalDateTime updatedAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "zone_id", nullable = false)
+    private Zone zone;
 }

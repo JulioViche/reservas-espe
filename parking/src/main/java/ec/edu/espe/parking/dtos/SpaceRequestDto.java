@@ -19,9 +19,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SpaceRequestDto {
 
-    @NotNull(message = "El código del espacio es obligatorio")
-    private UUID zoneId;
-
     @Size(max = 256, message = "La descripción del espacio debe tener menos de 256 caracteres")
     private String description;
 
@@ -32,4 +29,7 @@ public class SpaceRequestDto {
     @NotNull(message = "El estado del espacio es obligatorio")
     @Enumerated(EnumType.STRING)
     private SpaceStatus status;
+
+    @NotNull(message = "El código del espacio es obligatorio")
+    private UUID zoneId;
 }
