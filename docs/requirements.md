@@ -48,24 +48,27 @@ Zone ||--o{ Space : has
   - Validación en el cambio de capacity
   - Generación de code
   - Actualización de updatedAt
-- Cambiar enabled
+- RF-04 Cambiar enabled
   - Validar Spaces para la propagación en cascada
   - Propagar a Spaces en cascada
   - Actualización de updatedAt
 
 ### Space
 
-- Listar Spaces
-- Crear Space (zoneId, description, type)
+- RF-05 - Listar Spaces
+- RF-06 - Crear Space (zoneId, description, type)
   - Validación de existencia de zoneId
+  - Validación de capacity de zone
   - Generación de code
   - status = AVAILABLE
+  - enabled = true
   - Actualización de createdAt y updatedAt
-- Actualizar Space (description, type, status)
+- RF-07 - Actualizar Space (description, type, status)
+  - Validar que la zone no cambie
   - Validación en el cambio de status
-  - Generación de code
   - Actualización de updatedAt
-- Cambiar enabled
+- RF-08 - Cambiar enabled
   - Validar status
+  - Validar enabled de zona
   - Actualización de updatedAt
-- Eliminar Space
+- RF-09 - Eliminar Space
