@@ -52,7 +52,7 @@ public class ZoneController {
         return ResponseEntity.ok(zoneService.update(id, request));
     }
 
-    @PatchMapping("/{id}/status")
+    @PatchMapping("/{id}/enabled")
     public ResponseEntity<Void> toggleEnabled(@PathVariable UUID id) {
         zoneService.toggleEnabled(id);
         // 204

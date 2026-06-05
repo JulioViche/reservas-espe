@@ -53,7 +53,7 @@ public class SpaceController {
         return ResponseEntity.ok(spaceService.update(id, request));
     }
 
-    @PatchMapping("/{id}/status")
+    @PatchMapping("/{id}/enabled")
     public ResponseEntity<Void> toggleEnabled(@PathVariable UUID id) {
         spaceService.toggleEnabled(id);
         // 204
