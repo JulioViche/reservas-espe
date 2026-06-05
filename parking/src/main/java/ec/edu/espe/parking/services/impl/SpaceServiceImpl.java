@@ -32,7 +32,8 @@ public class SpaceServiceImpl implements SpaceService {
     }
 
     private String generateUniqueCode(Zone zone) {
-        String prefix = zone.getCode() + "-";
+        String[] parts = zone.getCode().split("-");
+        String prefix = parts[1] + "-" + parts[2] + "-";
         int max = spaceRepository.findByCodeStartingWith(prefix).stream()
                 .mapToInt(s -> Integer.parseInt(s.getCode().replace(prefix, "")))
                 .max()
