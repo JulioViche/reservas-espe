@@ -1,4 +1,4 @@
-# Configuración del proyecto
+# Project Configuration
 
 ## Spring Initializr Configuration
 
