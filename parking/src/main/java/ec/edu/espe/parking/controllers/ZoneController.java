@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -26,22 +27,35 @@ public class ZoneController {
 
     private final ZoneService zoneService;
 
-    @GetMapping("/")
-    public ResponseEntity<List<ZoneResponseDto>> getAllZones() {
+    @GetMapping
+    public ResponseEntity<List<ZoneResponseDto>> getAll() {
         // 200
-        return ResponseEntity.ok(zoneService.getAllZones());
+        return ResponseEntity.ok(zoneService.getAll());
     }
 
-    @PostMapping("/")
-    public ResponseEntity<ZoneResponseDto> createZone(@RequestBody ZoneRequestDto request) {
+    @GetMapping("/{id}")
+    public ResponseEntity<ZoneResponseDto> getById(@PathVariable UUID id) {
+        // 200
+        return ResponseEntity.ok(zoneService.getById(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<ZoneResponseDto> create(@Valid @RequestBody ZoneRequestDto request) {
         // 201
-        return new ResponseEntity<>(zoneService.createZone(request), HttpStatus.CREATED);
+        return new ResponseEntity<>(zoneService.create(request), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ZoneResponseDto> updateZone(@PathVariable UUID id,
+    public ResponseEntity<ZoneResponseDto> update(@PathVariable UUID id,
             @Valid @RequestBody ZoneRequestDto request) {
         // 200
-        return ResponseEntity.ok(zoneService.updateZone(id, request));
+        return ResponseEntity.ok(zoneService.update(id, request));
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<Void> toggleEnabled(@PathVariable UUID id) {
+        zoneService.toggleEnabled(id);
+        // 204
+        return ResponseEntity.noContent().build();
     }
 }
