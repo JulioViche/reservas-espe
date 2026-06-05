@@ -1,14 +1,12 @@
 package ec.edu.espe.parking.services.impl;
 
+import ec.edu.espe.parking.repositories.SpaceRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import ec.edu.espe.parking.dtos.SpaceResponseDto;
 import ec.edu.espe.parking.dtos.ZoneRequestDto;
 import ec.edu.espe.parking.dtos.ZoneResponseDto;
 import ec.edu.espe.parking.entities.Space;
@@ -16,46 +14,22 @@ import ec.edu.espe.parking.entities.SpaceStatus;
 import ec.edu.espe.parking.entities.Zone;
 import ec.edu.espe.parking.entities.ZoneType;
 import ec.edu.espe.parking.repositories.ZoneRepository;
-import ec.edu.espe.parking.services.SpaceService;
 import ec.edu.espe.parking.services.ZoneService;
-import jakarta.transaction.Transactional;
+import ec.edu.espe.parking.utils.ZoneMapper;
 
 @Service
 public class ZoneServiceImpl implements ZoneService {
 
-    @Autowired
-    private ZoneRepository zoneRepository;
+    private final SpaceRepository spaceRepository;
 
-    private SpaceService spaceService;
+    private final ZoneRepository zoneRepository;
 
-    // TODO: mover a SpaceService cuando se cree
-    private SpaceResponseDto mapToSpaceResponseDto(Space space) {
-        return SpaceResponseDto.builder()
-                .id(space.getId())
-                .code(space.getCode())
-                .description(space.getDescription())
-                .isActive(space.isActive())
-                .type(space.getType())
-                .createdAt(space.getCreatedAt())
-                .updatedAt(space.getUpdatedAt())
-                .build();
-    }
+    private final ZoneMapper zoneMapper;
 
-    private ZoneResponseDto mapToResponseDto(Zone zone) {
-
-        return ZoneResponseDto.builder()
-                .id(zone.getId())
-                .code(zone.getCode())
-                .name(zone.getName())
-                .description(zone.getDescription())
-                .isActive(zone.isActive())
-                .type(zone.getType())
-                .spaces(zone.getSpaces().stream()
-                        .map(this::mapToSpaceResponseDto)
-                        .collect(Collectors.toList()))
-                .createdAt(zone.getCreatedAt())
-                .updatedAt(zone.getUpdatedAt())
-                .build();
+    public ZoneServiceImpl(ZoneRepository zoneRepository, SpaceRepository spaceRepository, ZoneMapper zoneMapper) {
+        this.zoneRepository = zoneRepository;
+        this.spaceRepository = spaceRepository;
+        this.zoneMapper = zoneMapper;
     }
 
     private String generateUniqueCode(ZoneType type) {
@@ -67,70 +41,80 @@ public class ZoneServiceImpl implements ZoneService {
         return prefix + String.format("%02d", max + 1);
     }
 
-    private boolean validateDeactivation(UUID id) {
-        List<SpaceResponseDto> spaces = spaceService.getSpacesByZoneAndStatus(id, SpaceStatus.OCCUPIED);
-        return spaces.isEmpty();
-    }
-
-    @Transactional
-    public List<ZoneResponseDto> getAllZones() {
-
+    @Override
+    @Transactional(readOnly = true)
+    public List<ZoneResponseDto> getAll() {
         return zoneRepository.findAll().stream()
-                .map(this::mapToResponseDto)
-                .collect(Collectors.toList());
+                .map(zoneMapper::toResponseDto)
+                .toList();
     }
 
-    @Transactional
-    public ZoneResponseDto createZone(ZoneRequestDto request) {
-        if (zoneRepository.existsByName(request.getName())) {
-            throw new IllegalArgumentException("El nombre de la zona ya existe");
-        }
+    @Override
+    @Transactional(readOnly = true)
+    public ZoneResponseDto getById(UUID id) {
+        Zone zone = zoneRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Zona no encontrada con id: " + id));
+        return zoneMapper.toResponseDto(zone);
+    }
 
-        Zone zone = new Zone();
-        zone.setName(request.getName());
-        zone.setDescription(request.getDescription());
+    @Override
+    @Transactional
+    public ZoneResponseDto create(ZoneRequestDto request) {
+        if (zoneRepository.existsByName(request.getName()))
+            throw new IllegalArgumentException("El nombre de la zona ya existe");
+
+        Zone zone = zoneMapper.toEntity(request);
         zone.setCode(generateUniqueCode(request.getType()));
-        zone.setActive(true);
-        zone.setType(request.getType());
+        zone.setEnabled(true);
         zone.setCreatedAt(LocalDateTime.now());
         zone.setUpdatedAt(LocalDateTime.now());
 
-        return mapToResponseDto(zoneRepository.save(zone));
+        return zoneMapper.toResponseDto(zoneRepository.save(zone));
     }
 
+    @Override
     @Transactional
-    public ZoneResponseDto updateZone(UUID id, ZoneRequestDto request) {
+    public ZoneResponseDto update(UUID id, ZoneRequestDto request) {
         Zone zone = zoneRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("La zona con id " + id + " no existe"));
+                .orElseThrow(() -> new IllegalArgumentException("Zona no encontrada con id: " + id));
 
-        if (!zone.getName().equals(request.getName()) && zoneRepository.existsByName(request.getName())) {
+        if (!zone.getName().equals(request.getName()) && zoneRepository.existsByName(request.getName()))
             throw new IllegalArgumentException("El nombre de la zona ya existe");
-        }
 
+        if (zone.getSpaces().size() > 0 && zone.getType() != request.getType())
+            throw new IllegalStateException("No se puede cambiar el tipo de la zona porque tiene espacios asociados");
+
+        if (zone.getSpaces().size() > request.getCapacity())
+            throw new IllegalStateException(
+                    "La nueva capacidad no puede ser menor que la cantidad de espacios asociados");
+
+        if (zone.getType() != request.getType())
+            zone.setCode(generateUniqueCode(request.getType()));
         zone.setName(request.getName());
         zone.setDescription(request.getDescription());
-
-        ZoneType previousType = zone.getType();
         zone.setType(request.getType());
-
-        if (previousType != request.getType()) {
-            zone.setCode(generateUniqueCode(request.getType()));
-        }
-
+        zone.setCapacity(request.getCapacity());
         zone.setUpdatedAt(LocalDateTime.now());
 
-        return mapToResponseDto(zoneRepository.save(zone));
+        return zoneMapper.toResponseDto(zoneRepository.save(zone));
     }
 
+    @Override
     @Transactional
-    public void switchZoneStatus(UUID id) {
+    public void toggleEnabled(UUID id) {
         Zone zone = zoneRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("La zona con id " + id + " no existe"));
+                .orElseThrow(() -> new IllegalArgumentException("Zona no encontrada con id: " + id));
 
-        if (zone.isActive() && !validateDeactivation(id))
+        if (spaceRepository.countByZoneIdAndStatus(zone.getId(), SpaceStatus.OCCUPIED) > 0)
             throw new IllegalStateException("No se puede desactivar la zona porque tiene espacios ocupados");
 
-        zone.setActive(!zone.isActive());
+        zone.setEnabled(!zone.isEnabled());
         zone.setUpdatedAt(LocalDateTime.now());
+
+        List<Space> spaces = spaceRepository.findByZoneId(zone.getId());
+        for (Space space : spaces) {
+            space.setEnabled(zone.isEnabled());
+            space.setUpdatedAt(LocalDateTime.now());
+        }
     }
 }

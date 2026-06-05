@@ -8,11 +8,13 @@ import ec.edu.espe.parking.dtos.ZoneResponseDto;
 
 public interface ZoneService {
 
-    List<ZoneResponseDto> getAllZones();
+    List<ZoneResponseDto> getAll();
 
-    ZoneResponseDto createZone(ZoneRequestDto request);
+    ZoneResponseDto getById(UUID id);
 
-    ZoneResponseDto updateZone(UUID id, ZoneRequestDto request);
+    ZoneResponseDto create(ZoneRequestDto request);
 
-    void switchZoneStatus(UUID id);
+    ZoneResponseDto update(UUID id, ZoneRequestDto request);
+
+    void toggleEnabled(UUID id);
 }

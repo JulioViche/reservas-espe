@@ -105,6 +105,9 @@ public class SpaceServiceImpl implements SpaceService {
         if (space.getStatus() == SpaceStatus.OCCUPIED && space.isEnabled())
             throw new RuntimeException("No se puede deshabilitar un espacio ocupado");
 
+        if (!space.isEnabled() && !space.getZone().isEnabled())
+            throw new RuntimeException("No se puede habilitar un espacio cuya zona está deshabilitada");
+
         space.setEnabled(!space.isEnabled());
         space.setUpdatedAt(LocalDateTime.now());
         spaceRepository.save(space);
