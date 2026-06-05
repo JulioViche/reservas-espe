@@ -1,30 +1,36 @@
 package ec.edu.espe.parking.utils;
 
+import org.springframework.stereotype.Component;
+
 import ec.edu.espe.parking.dtos.SpaceRequestDto;
 import ec.edu.espe.parking.dtos.SpaceResponseDto;
 import ec.edu.espe.parking.entities.Space;
+import ec.edu.espe.parking.entities.Zone;
 
-public class UtilsMappers {
-    public Space mapToSpaceEntity(SpaceRequestDto spaceRequestDto) {
+@Component
+public class SpaceMapper {
+
+    public Space toEntity(SpaceRequestDto request, Zone zone) {
         return Space.builder()
-                .id(spaceRequestDto.getZoneId())
-                .description(spaceRequestDto.getDescription())
-                .type(spaceRequestDto.getType())
-                .status(spaceRequestDto.getStatus())
+                .description(request.getDescription())
+                .type(request.getType())
+                .status(request.getStatus())
+                .zone(zone)
                 .build();
     }
 
-    public SpaceResponseDto mapToSpaceResponseDto(Space space) {
+    public SpaceResponseDto toResponseDto(Space space) {
         return SpaceResponseDto.builder()
                 .id(space.getId())
                 .code(space.getCode())
                 .description(space.getDescription())
                 .type(space.getType())
                 .status(space.getStatus())
-                .isActive(space.isActive())
-                .zone(space.getZone())
+                .enabled(space.isEnabled())
                 .createdAt(space.getCreatedAt())
                 .updatedAt(space.getUpdatedAt())
+                .zoneId(space.getZone().getId())
+                .zoneName(space.getZone().getName())
                 .build();
     }
 }
