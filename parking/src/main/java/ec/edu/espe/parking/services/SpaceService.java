@@ -5,21 +5,18 @@ import java.util.UUID;
 
 import ec.edu.espe.parking.dtos.SpaceRequestDto;
 import ec.edu.espe.parking.dtos.SpaceResponseDto;
-import ec.edu.espe.parking.entities.SpaceStatus;
 
 public interface SpaceService {
 
-    List<SpaceResponseDto> getAllSpaces();
+    List<SpaceResponseDto> getAll();
 
-    SpaceResponseDto createSpace(SpaceRequestDto request);
+    SpaceResponseDto getById(UUID id);
 
-    SpaceResponseDto updateSpace(UUID id, SpaceRequestDto request);
+    SpaceResponseDto create(SpaceRequestDto request);
 
-    boolean deleteSpace(UUID id);
+    SpaceResponseDto update(UUID id, SpaceRequestDto request);
 
-    SpaceResponseDto changeSpaceStatus(UUID spaceId, SpaceStatus status);
+    void toggleEnabled(UUID id);
 
-    List<SpaceResponseDto> getSpacesByZoneAndStatus(UUID zoneId, SpaceStatus status);
-
-    List<SpaceResponseDto> getSpacesByStatus(SpaceStatus status);
+    void delete(UUID id);
 }
