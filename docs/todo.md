@@ -1,7 +1,8 @@
 - [x] Crear base de datos
 - [x] En application.yaml configurar credenciales
 - [x] En test/ crear una instanciaa de ZonaServicioImpl
-- [ ] Implementar correctamente la acción de activar o desactivar ():
+- [x] Implementar correctamente la acción de activar o desactivar ():
   - Al desactivar la zona, los espacios también se desactivan
   - Al activar la zona, los espacios también se activan
   - Los espacios ocupados no se pueden desactivar y las zonas con al menos un espacio ocupado no se puede desactivar.
+- [ ] Validar que los enum no sean case sensitive
