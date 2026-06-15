@@ -6,3 +6,5 @@
   - Al activar la zona, los espacios también se activan
   - Los espacios ocupados no se pueden desactivar y las zonas con al menos un espacio ocupado no se puede desactivar.
 - [ ] Validar que los enum no sean case sensitive
+- [ ] Validar que las placas no se repitan
+- [ ] Validar que el año del vehiculo no sobrepase el año actual + 1
