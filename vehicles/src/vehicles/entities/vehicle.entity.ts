@@ -5,7 +5,7 @@ import {
   TableInheritance,
 } from 'typeorm';
 
-export enum Clasification {
+export enum Classification {
   ELECTRIC = 'electric',
   HYBRID = 'hybrid',
   GASOLINE = 'gasoline',
@@ -33,8 +33,8 @@ export abstract class Vehicle {
   @Column()
   color!: string;
 
-  @Column({ type: 'enum', enum: Clasification })
-  classification!: Clasification;
+  @Column({ type: 'enum', enum: Classification })
+  classification!: Classification;
 
   abstract getType(): string;
 }

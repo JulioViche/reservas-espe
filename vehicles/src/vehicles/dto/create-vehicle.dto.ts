@@ -1,4 +1,5 @@
 import {
+  IsEnum,
   IsIn,
   IsInt,
   IsNotEmpty,
@@ -12,6 +13,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { MotorcycleType } from '../entities/motorcycle.entity';
+import { Classification } from '../entities/vehicle.entity';
 import { Type } from 'class-transformer';
 
 export class VehicleDto {
@@ -57,6 +59,10 @@ export class VehicleDto {
     message: 'Color must be at most 20 characters long',
   })
   color!: string;
+
+  @IsEnum(Classification)
+  @IsNotEmpty()
+  classification!: Classification;
 
   @IsInt()
   @IsNotEmpty()
