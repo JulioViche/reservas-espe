@@ -84,7 +84,7 @@ export class CarDto extends VehicleDto {
   @Max(5, {
     message: 'Number of doors must be at most 5',
   })
-  numberOfDoors!: number;
+  doors!: number;
 
   @IsNumber()
   @IsNotEmpty()
@@ -105,9 +105,9 @@ export class MotorcycleDto extends VehicleDto {
   })
   declare plate: string;
 
-  @IsString()
+  @IsEnum(MotorcycleType)
   @IsNotEmpty()
-  motorcycleType!: MotorcycleType;
+  type!: MotorcycleType;
 }
 
 export class TruckDto extends VehicleDto {

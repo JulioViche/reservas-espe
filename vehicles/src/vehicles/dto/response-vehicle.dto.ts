@@ -7,6 +7,10 @@ export class ResponseVehicleDto {
   year!: number;
   classification!: string;
   type!: string;
+  doors?: number;
+  trunkCapacity?: number;
+  motorcycleType?: string;
+  cargoCapacity?: number;
 }
 
 // export class ResponseVehiculoDto {

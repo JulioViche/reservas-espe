@@ -1,5 +1,6 @@
 import {
   Column,
+  DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
   TableInheritance,
@@ -35,6 +36,9 @@ export abstract class Vehicle {
 
   @Column({ type: 'enum', enum: Classification })
   classification!: Classification;
+
+  @DeleteDateColumn()
+  deletedAt?: Date;
 
   abstract getType(): string;
 }
