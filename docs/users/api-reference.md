@@ -81,19 +81,14 @@ Content-Type: application/json
 |--------|----------|-------------|--------|
 | `GET` | `/users` | List all users | 200 |
 | `GET` | `/users/{id}` | Get user by ID | 200 |
-| `POST` | `/users/{id}/roles` | Assign role to user | 201 |
+| `POST` | `/users/{id}/roles/{roleId}` | Assign role to user | 201 |
 | `DELETE` | `/users/{id}/roles/{roleId}` | Remove role from user | 204 |
 | `PATCH` | `/users/{id}/active` | Toggle user active/inactive | 204 |
 
 ### Assign Role
 
 ```http
-POST /api/v1/users/{id}/roles
-Content-Type: application/json
-
-{
-    "idRole": "uuid-of-role"
-}
+POST /api/v1/users/{id}/roles/{roleId}
 ```
 
 ### Remove Role
