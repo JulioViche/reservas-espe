@@ -86,6 +86,12 @@ public class UserServiceImpl implements UserService {
     public void toggleActive(UUID idPerson) {
         User user = userRepository.findById(idPerson)
                 .orElseThrow(() -> new IllegalArgumentException("Usuario no encontrado con id: " + idPerson));
-        user.setActive(!user.getActive());
+
+        boolean newActive = !user.getActive();
+        if (newActive && !user.getPerson().getActive()) {
+            throw new IllegalStateException("No se puede activar el usuario porque la persona está inactiva");
+        }
+
+        user.setActive(newActive);
     }
 }

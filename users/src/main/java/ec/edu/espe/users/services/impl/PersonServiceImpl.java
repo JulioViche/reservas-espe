@@ -75,6 +75,7 @@ public class PersonServiceImpl implements PersonService {
                 .person(person)
                 .build();
         userRepository.save(user);
+        person.setUser(user);
 
         return PersonCreateResponseDto.builder()
                 .person(personMapper.toResponseDto(person))
@@ -103,6 +104,7 @@ public class PersonServiceImpl implements PersonService {
         person.setAddress(request.getAddress());
         person.setNationality(request.getNationality());
         person.setActive(request.getActive());
+        cascadeUserActive(person);
 
         return personMapper.toResponseDto(personRepository.save(person));
     }
@@ -113,6 +115,13 @@ public class PersonServiceImpl implements PersonService {
         Person person = personRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Persona no encontrada con id: " + id));
         person.setActive(!person.getActive());
+        cascadeUserActive(person);
+    }
+
+    private void cascadeUserActive(Person person) {
+        if (!person.getActive() && person.getUser() != null) {
+            person.getUser().setActive(false);
+        }
     }
 
     private static final String PASSWORD_CHARS =
