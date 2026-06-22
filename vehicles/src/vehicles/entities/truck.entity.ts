@@ -1,7 +1,7 @@
 import { ChildEntity, Column } from 'typeorm';
 import { Vehicle } from './vehicle.entity';
 
-@ChildEntity()
+@ChildEntity('truck')
 export class Truck extends Vehicle {
   @Column()
   cargoCapacity!: number;
