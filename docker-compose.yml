@@ -55,8 +55,6 @@ services:
   parking-api:
     build:
       context: ./parking
-    ports:
-      - "8080:8080"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://parking-db:5432/parking
       SPRING_DATASOURCE_USERNAME: jvc21
@@ -68,8 +66,6 @@ services:
   users-api:
     build:
       context: ./users
-    ports:
-      - "8081:8081"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://users-db:5432/users
       SPRING_DATASOURCE_USERNAME: jvc21
@@ -81,8 +77,6 @@ services:
   vehicles-api:
     build:
       context: ./vehicles
-    ports:
-      - "3001:3000"
     environment:
       DB_HOST: vehicles-db
       DB_PORT: "5432"
@@ -92,6 +86,17 @@ services:
     depends_on:
       vehicles-db:
         condition: service_healthy
+
+  # ==================== Swagger UI Unificado ====================
+
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    environment:
+      URLS: '[
+        {"name": "Parking", "url": "http://localhost:3000/parking/api-docs"},
+        {"name": "Users", "url": "http://localhost:3000/users/api-docs"},
+        {"name": "Vehicles", "url": "http://localhost:3000/vehicles/api-docs"}
+      ]'
 
   # ==================== API Gateway ====================
 
@@ -110,6 +115,7 @@ services:
       - parking-api
       - users-api
       - vehicles-api
+      - swagger-ui
 
 volumes:
   parking-db-data:

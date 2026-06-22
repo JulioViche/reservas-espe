@@ -16,38 +16,69 @@ import org.springframework.web.bind.annotation.RestController;
 import ec.edu.espe.users.dtos.UserResponseDto;
 import ec.edu.espe.users.dtos.UserRoleRequestDto;
 import ec.edu.espe.users.services.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
+@Tag(name = "Usuarios", description = "Operaciones de gestión de usuarios del sistema")
 public class UserController {
 
     private final UserService userService;
 
     @GetMapping
+    @Operation(summary = "Listar todos los usuarios", description = "Obtiene todos los usuarios del sistema")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Lista de usuarios obtenida exitosamente", content = @Content(schema = @Schema(implementation = UserResponseDto.class)))
+    })
     public ResponseEntity<List<UserResponseDto>> getAll() {
         return ResponseEntity.ok(userService.getAll());
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Obtener usuario por ID", description = "Busca un usuario por su identificador único")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Usuario encontrado", content = @Content(schema = @Schema(implementation = UserResponseDto.class))),
+            @ApiResponse(responseCode = "404", description = "Usuario no encontrado")
+    })
     public ResponseEntity<UserResponseDto> getById(@PathVariable UUID id) {
         return ResponseEntity.ok(userService.getById(id));
     }
 
     @PostMapping("/{id}/roles/{roleId}")
+    @Operation(summary = "Asignar rol a usuario", description = "Asigna un rol existente a un usuario del sistema")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Rol asignado exitosamente"),
+            @ApiResponse(responseCode = "404", description = "Usuario o rol no encontrado")
+    })
     public ResponseEntity<Void> assignRole(@PathVariable UUID id, @PathVariable UUID roleId) {
         userService.assignRole(new UserRoleRequestDto(id, roleId));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}/roles/{roleId}")
+    @Operation(summary = "Remover rol de usuario", description = "Elimina la asignación de un rol a un usuario")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Rol removido exitosamente"),
+            @ApiResponse(responseCode = "404", description = "Usuario o rol no encontrado")
+    })
     public ResponseEntity<Void> removeRole(@PathVariable UUID id, @PathVariable UUID roleId) {
         userService.removeRole(new UserRoleRequestDto(id, roleId));
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/{id}/active")
+    @Operation(summary = "Cambiar estado activo de un usuario", description = "Activa o desactiva un usuario en el sistema")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Estado cambiado exitosamente"),
+            @ApiResponse(responseCode = "404", description = "Usuario no encontrado")
+    })
     public ResponseEntity<Void> toggleActive(@PathVariable UUID id) {
         userService.toggleActive(id);
         return ResponseEntity.noContent().build();

@@ -1,5 +1,8 @@
 _format_version: "3.0"
 services:
+
+  # ==================== Users API ====================
+
   - name: persons
     url: http://users-api:8081/api/v1/persons
     routes:
@@ -21,6 +24,9 @@ services:
         paths:
           - /roles
         strip_path: true
+
+  # ==================== Parking API ====================
+
   - name: spaces
     url: http://parking-api:8080/api/v1/spaces
     routes:
@@ -35,6 +41,9 @@ services:
         paths:
           - /zones
         strip_path: true
+
+  # ==================== Vehicles API ====================
+
   - name: vehicles
     url: http://vehicles-api:3000
     routes:
@@ -42,3 +51,78 @@ services:
         paths:
           - /vehicles
         strip_path: false
+
+  # ==================== Swagger UI (Individual) ====================
+
+  - name: parking-swagger-ui
+    url: http://parking-api:8080/swagger-ui
+    routes:
+      - name: parking-swagger-ui
+        paths:
+          - /parking/swagger
+        strip_path: true
+  - name: parking-api-docs
+    url: http://parking-api:8080/api-docs
+    routes:
+      - name: parking-api-docs
+        paths:
+          - /parking/api-docs
+        strip_path: true
+
+  - name: users-swagger-ui
+    url: http://users-api:8081/swagger-ui
+    routes:
+      - name: users-swagger-ui
+        paths:
+          - /users/swagger
+        strip_path: true
+  - name: users-api-docs
+    url: http://users-api:8081/api-docs
+    routes:
+      - name: users-api-docs
+        paths:
+          - /users/api-docs
+        strip_path: true
+
+  - name: vehicles-swagger-ui
+    url: http://vehicles-api:3000/swagger
+    routes:
+      - name: vehicles-swagger-ui
+        paths:
+          - /vehicles/swagger
+        strip_path: true
+  - name: vehicles-api-docs
+    url: http://vehicles-api:3000/api-docs
+    routes:
+      - name: vehicles-api-docs
+        paths:
+          - /vehicles/api-docs
+        strip_path: true
+
+  # ==================== Rutas internas (para Swagger Try it out) ====================
+
+  - name: parking-internal
+    url: http://parking-api:8080
+    routes:
+      - name: parking-internal
+        paths:
+          - /api/v1
+        strip_path: false
+
+  - name: users-internal
+    url: http://users-api:8081
+    routes:
+      - name: users-internal
+        paths:
+          - /api/v1
+        strip_path: false
+
+  # ==================== Swagger UI Unificado ====================
+
+  - name: swagger-hub
+    url: http://swagger-ui:8080
+    routes:
+      - name: swagger-hub
+        paths:
+          - /docs
+        strip_path: true

@@ -12,6 +12,7 @@ import {
   MinLength,
   ValidateNested,
 } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
 import { MotorcycleType } from '../entities/motorcycle.entity';
 import { Classification } from '../entities/vehicle.entity';
 import { Type } from 'class-transformer';
@@ -22,6 +23,7 @@ export class VehicleDto {
   @Matches(/^[A-Z]{3}-[0-9]{4}$/, {
     message: 'Plate must be in the format ABC-1234',
   })
+  @ApiProperty({ description: 'Placa del vehículo', example: 'ABC-1234' })
   plate!: string;
 
   @IsString()
@@ -35,6 +37,7 @@ export class VehicleDto {
   @Matches(/^[A-Za-zÀ-ÿ]+(?:[ -][A-Za-zÀ-ÿ]+)*$/, {
     message: 'Brand must contain only letters and spaces',
   })
+  @ApiProperty({ description: 'Marca del vehículo', example: 'Toyota' })
   brand!: string;
 
   @IsString()
@@ -48,6 +51,7 @@ export class VehicleDto {
   @Matches(/^[A-Za-z0-9À-ÿ]+(?:[ -][A-Za-z0-9À-ÿ]+)*$/, {
     message: 'Model must contain only letters, numbers and spaces',
   })
+  @ApiProperty({ description: 'Modelo del vehículo', example: 'Corolla' })
   model!: string;
 
   @IsString()
@@ -58,10 +62,12 @@ export class VehicleDto {
   @MaxLength(20, {
     message: 'Color must be at most 20 characters long',
   })
+  @ApiProperty({ description: 'Color del vehículo', example: 'Rojo' })
   color!: string;
 
   @IsEnum(Classification)
   @IsNotEmpty()
+  @ApiProperty({ description: 'Clasificación del vehículo', enum: Classification, example: Classification.GASOLINE })
   classification!: Classification;
 
   @IsInt()
@@ -72,6 +78,7 @@ export class VehicleDto {
   @Max(new Date().getFullYear() + 1, {
     message: `Year must be no later than ${new Date().getFullYear() + 1}`,
   })
+  @ApiProperty({ description: 'Año del vehículo', example: 2024 })
   year!: number;
 }
 
@@ -84,6 +91,7 @@ export class CarDto extends VehicleDto {
   @Max(5, {
     message: 'Number of doors must be at most 5',
   })
+  @ApiProperty({ description: 'Número de puertas', example: 4 })
   doors!: number;
 
   @IsNumber()
@@ -94,6 +102,7 @@ export class CarDto extends VehicleDto {
   @Max(10000, {
     message: 'Trunk capacity must be less than 10000 liters',
   })
+  @ApiProperty({ description: 'Capacidad del maletero en litros', example: 500 })
   trunkCapacity!: number;
 }
 
@@ -103,10 +112,12 @@ export class MotorcycleDto extends VehicleDto {
   @Matches(/^[A-Z]{2}-[0-9]{3}[A-Z]$/, {
     message: 'Plate must be in the format AB-123C',
   })
+  @ApiProperty({ description: 'Placa de la motocicleta', example: 'AB-123C' })
   declare plate: string;
 
   @IsEnum(MotorcycleType)
   @IsNotEmpty()
+  @ApiProperty({ description: 'Tipo de motocicleta', enum: MotorcycleType, example: MotorcycleType.SPORT })
   type!: MotorcycleType;
 }
 
@@ -119,11 +130,13 @@ export class TruckDto extends VehicleDto {
   @Max(100000, {
     message: 'Cargo capacity must be less than 100000 kg',
   })
+  @ApiProperty({ description: 'Capacidad de carga en kg', example: 5000 })
   cargoCapacity!: number;
 }
 
 export class CreateVehicleDto {
   @IsIn(['car', 'motorcycle', 'truck'])
+  @ApiProperty({ description: 'Tipo de vehículo', enum: ['car', 'motorcycle', 'truck'], example: 'car' })
   type!: string;
 
   @ValidateNested()
@@ -142,5 +155,6 @@ export class CreateVehicleDto {
         return VehicleDto;
     }
   })
+  @ApiProperty({ description: 'Datos específicos del vehículo según el tipo' })
   data!: CarDto | MotorcycleDto | TruckDto;
 }

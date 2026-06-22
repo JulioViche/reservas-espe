@@ -1,5 +1,6 @@
 package ec.edu.espe.users.dtos;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,11 +10,15 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Schema(description = "Respuesta al crear una persona con su usuario y contraseña generados")
 public class PersonCreateResponseDto {
 
+    @Schema(description = "Datos de la persona creada")
     private PersonResponseDto person;
 
+    @Schema(description = "Nombre de usuario generado", example = "jperez")
     private String username;
 
+    @Schema(description = "Contraseña generada automáticamente", example = "Abc123!xyz")
     private String generatedPassword;
 }
