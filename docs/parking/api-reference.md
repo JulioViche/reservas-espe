@@ -1,6 +1,6 @@
 # API Reference
 
-Base URL: `http://localhost:8080/api/v1`
+Base URL: `http://localhost:3000`
 
 ## Zones
 
@@ -15,7 +15,7 @@ Base URL: `http://localhost:8080/api/v1`
 ### Create Zone
 
 ```http
-POST /api/v1/zones
+POST /zones
 Content-Type: application/json
 
 {
@@ -29,7 +29,7 @@ Content-Type: application/json
 ### Update Zone
 
 ```http
-PUT /api/v1/zones/{id}
+PUT /zones/{id}
 Content-Type: application/json
 
 {
@@ -54,7 +54,7 @@ Content-Type: application/json
 ### Create Space
 
 ```http
-POST /api/v1/spaces
+POST /spaces
 Content-Type: application/json
 
 {
@@ -68,7 +68,7 @@ Content-Type: application/json
 ### Update Space
 
 ```http
-PUT /api/v1/spaces/{id}
+PUT /spaces/{id}
 Content-Type: application/json
 
 {

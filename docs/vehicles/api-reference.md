@@ -2,6 +2,10 @@
 
 Base URL: `http://localhost:3000`
 
+> **Note:** El gateway unifica todos los microservicios bajo `localhost:3000`.
+> Los endpoints de parking (`/zones`, `/spaces`) y users (`/persons`, `/users`, `/roles`)
+> también están disponibles en el mismo puerto.
+
 ## Vehicles
 
 | Method | Endpoint | Description | Status |

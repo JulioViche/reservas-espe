@@ -1,0 +1,44 @@
+_format_version: "3.0"
+services:
+  - name: persons
+    url: http://users-api:8081/api/v1/persons
+    routes:
+      - name: persons
+        paths:
+          - /persons
+        strip_path: true
+  - name: users
+    url: http://users-api:8081/api/v1/users
+    routes:
+      - name: users
+        paths:
+          - /users
+        strip_path: true
+  - name: roles
+    url: http://users-api:8081/api/v1/roles
+    routes:
+      - name: roles
+        paths:
+          - /roles
+        strip_path: true
+  - name: spaces
+    url: http://parking-api:8080/api/v1/spaces
+    routes:
+      - name: spaces
+        paths:
+          - /spaces
+        strip_path: true
+  - name: zones
+    url: http://parking-api:8080/api/v1/zones
+    routes:
+      - name: zones
+        paths:
+          - /zones
+        strip_path: true
+  - name: vehicles
+    url: http://vehicles-api:3000
+    routes:
+      - name: vehicles
+        paths:
+          - /vehicles
+        strip_path: false

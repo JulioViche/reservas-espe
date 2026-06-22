@@ -82,7 +82,7 @@ services:
     build:
       context: ./vehicles
     ports:
-      - "3000:3000"
+      - "3001:3000"
     environment:
       DB_HOST: vehicles-db
       DB_PORT: "5432"
@@ -92,6 +92,24 @@ services:
     depends_on:
       vehicles-db:
         condition: service_healthy
+
+  # ==================== API Gateway ====================
+
+  kong:
+    image: kong:3.9
+    ports:
+      - "3000:8000"
+    environment:
+      KONG_DATABASE: "off"
+      KONG_DECLARATIVE_CONFIG: /etc/kong/kong.yml
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+    volumes:
+      - ./kong.yml:/etc/kong/kong.yml:ro
+    depends_on:
+      - parking-api
+      - users-api
+      - vehicles-api
 
 volumes:
   parking-db-data:

@@ -1,6 +1,6 @@
 # API Reference
 
-Base URL: `http://localhost:8081/api/v1`
+Base URL: `http://localhost:3000`
 
 ## Persons
 
@@ -15,7 +15,7 @@ Base URL: `http://localhost:8081/api/v1`
 ### Create Person
 
 ```http
-POST /api/v1/persons
+POST /persons
 Content-Type: application/json
 
 {
@@ -59,7 +59,7 @@ Response: `201 Created`
 ### Update Person
 
 ```http
-PUT /api/v1/persons/{id}
+PUT /persons/{id}
 Content-Type: application/json
 
 {
@@ -88,13 +88,13 @@ Content-Type: application/json
 ### Assign Role
 
 ```http
-POST /api/v1/users/{id}/roles/{roleId}
+POST /users/{id}/roles/{roleId}
 ```
 
 ### Remove Role
 
 ```http
-DELETE /api/v1/users/{id}/roles/{roleId}
+DELETE /users/{id}/roles/{roleId}
 ```
 
 ## Roles
@@ -110,7 +110,7 @@ DELETE /api/v1/users/{id}/roles/{roleId}
 ### Create Role
 
 ```http
-POST /api/v1/roles
+POST /roles
 Content-Type: application/json
 
 {
@@ -123,7 +123,7 @@ Content-Type: application/json
 ### Update Role
 
 ```http
-PUT /api/v1/roles/{id}
+PUT /roles/{id}
 Content-Type: application/json
 
 {
