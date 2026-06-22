@@ -1,0 +1,99 @@
+services:
+
+  # ==================== Databases ====================
+
+  vehicles-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: vehicles
+      POSTGRES_USER: jvc21
+      POSTGRES_PASSWORD: passwd123
+    ports:
+      - "5434:5432"
+    volumes:
+      - vehicles-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U jvc21 -d vehicles"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  parking-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: parking
+      POSTGRES_USER: jvc21
+      POSTGRES_PASSWORD: passwd123
+    ports:
+      - "5432:5432"
+    volumes:
+      - parking-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U jvc21 -d parking"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  users-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: users
+      POSTGRES_USER: jvc21
+      POSTGRES_PASSWORD: passwd123
+    ports:
+      - "5433:5432"
+    volumes:
+      - users-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U jvc21 -d users"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # ==================== Microservices ====================
+
+  parking-api:
+    build:
+      context: ./parking
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://parking-db:5432/parking
+      SPRING_DATASOURCE_USERNAME: jvc21
+      SPRING_DATASOURCE_PASSWORD: passwd123
+    depends_on:
+      parking-db:
+        condition: service_healthy
+
+  users-api:
+    build:
+      context: ./users
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://users-db:5432/users
+      SPRING_DATASOURCE_USERNAME: jvc21
+      SPRING_DATASOURCE_PASSWORD: passwd123
+    depends_on:
+      users-db:
+        condition: service_healthy
+
+  vehicles-api:
+    build:
+      context: ./vehicles
+    ports:
+      - "3000:3000"
+    environment:
+      DB_HOST: vehicles-db
+      DB_PORT: "5432"
+      DB_USERNAME: jvc21
+      DB_PASSWORD: passwd123
+      DB_NAME: vehicles
+    depends_on:
+      vehicles-db:
+        condition: service_healthy
+
+volumes:
+  parking-db-data:
+  users-db-data:
+  vehicles-db-data:
