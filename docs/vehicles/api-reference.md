@@ -92,13 +92,35 @@ Content-Type: application/json
 
 ### Update Vehicle
 
+Solo se pueden modificar los campos comunes (no los específicos de cada tipo).
+
 ```http
 PATCH /vehicles/{id}
 Content-Type: application/json
 
 {
-    "color": "Azul",
-    "year": 2025
+    "plate": "XYZ-9876",
+    "brand": "Mazda",
+    "model": "3",
+    "year": 2025,
+    "color": "Gris",
+    "classification": "gasoline"
+}
+```
+
+### Validation Error
+
+```http
+HTTP/1.1 400 Bad Request
+Content-Type: application/json
+
+{
+    "message": [
+        "Year must be no later than 2027",
+        "Color must be at least 4 characters long"
+    ],
+    "error": "Bad Request",
+    "statusCode": 400
 }
 ```
 

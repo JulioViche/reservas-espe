@@ -2,7 +2,6 @@ import {
   IsEnum,
   IsInt,
   IsNotEmpty,
-  IsNumber,
   IsOptional,
   IsString,
   Matches,
@@ -11,7 +10,6 @@ import {
   Min,
   MinLength,
 } from 'class-validator';
-import { MotorcycleType } from '../entities/motorcycle.entity';
 import { Classification } from '../entities/vehicle.entity';
 
 export class UpdateVehicleDto {
@@ -72,38 +70,4 @@ export class UpdateVehicleDto {
     message: `Year must be no later than ${new Date().getFullYear() + 1}`,
   })
   year?: number;
-
-  @IsOptional()
-  @IsInt()
-  @Min(2, {
-    message: 'Number of doors must be at least 2',
-  })
-  @Max(5, {
-    message: 'Number of doors must be at most 5',
-  })
-  doors?: number;
-
-  @IsOptional()
-  @IsNumber()
-  @Min(0, {
-    message: 'Trunk capacity must be a positive number',
-  })
-  @Max(10000, {
-    message: 'Trunk capacity must be less than 10000 liters',
-  })
-  trunkCapacity?: number;
-
-  @IsOptional()
-  @IsEnum(MotorcycleType)
-  type?: MotorcycleType;
-
-  @IsOptional()
-  @IsNumber()
-  @Min(0, {
-    message: 'Cargo capacity must be a positive number',
-  })
-  @Max(100000, {
-    message: 'Cargo capacity must be less than 100000 kg',
-  })
-  cargoCapacity?: number;
 }

@@ -10,9 +10,10 @@
   - Year validation (1885 to current year + 1)
   - Classification must be a valid enum value
   - Dynamic DTO validation based on `type` (car/motorcycle/truck)
-- RF-04 - Update vehicle (partial update of any field)
+- RF-04 - Update vehicle (partial update of common fields only)
   - Validate vehicle exists
-  - Plate uniqueness preserved on update
+  - Only `plate`, `brand`, `model`, `year`, `color`, `classification` are updatable
+  - Type-specific fields (`doors`, `trunkCapacity`, `type`, `cargoCapacity`) are not modifiable
 - RF-05 - Delete vehicle (soft delete)
 
 ### Business Rules
@@ -24,4 +25,4 @@
 - **Plate uniqueness**: Plates are unique across all vehicle types (single table).
 - **Soft delete**: Vehicles are soft-deleted; `deletedAt` is set on removal. Queries automatically exclude soft-deleted records.
 - **Classification**: Used for future discount policies (electric, hybrid, gasoline, diesel).
-- **Inheritance**: Uses Single Table Inheritance via TypeORM. All vehicle types share the `vehicle` table, with a `type` discriminator column.
+- **Inheritance**: Uses Single Table Inheritance via TypeORM. All vehicle types share the `vehicle` table, with a `vehicleType` discriminator column (`car`, `motorcycle`, `truck`).

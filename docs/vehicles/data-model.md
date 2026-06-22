@@ -10,7 +10,7 @@ erDiagram
         int year
         string color
         enum classification "electric | hybrid | gasoline | diesel"
-        string type "discriminator: car | motorcycle | truck"
+        string vehicleType "discriminator: car | motorcycle | truck"
         timestamp deletedAt "soft delete"
     }
 
@@ -34,7 +34,7 @@ erDiagram
 
 ## Single Table Inheritance
 
-All types share the `vehicle` table. The `type` column (lowercase) discriminates between `car`, `motorcycle`, and `truck`.
+All types share the `vehicle` table. The `vehicleType` column discriminates between `car`, `motorcycle`, and `truck`.
 
 | Column | Type | Constraints |
 |--------|------|-------------|
@@ -45,10 +45,10 @@ All types share the `vehicle` table. The `type` column (lowercase) discriminates
 | `year` | INTEGER | Not null |
 | `color` | VARCHAR | Not null |
 | `classification` | ENUM | `electric`, `hybrid`, `gasoline`, `diesel` |
-| `type` | VARCHAR | Discriminator: `car`, `motorcycle`, `truck` |
+| `vehicleType` | VARCHAR | Discriminator: `car`, `motorcycle`, `truck` |
 | `doors` | INTEGER | Nullable (car only) |
 | `trunkCapacity` | INTEGER | Nullable (car only) |
-| `motorcycleType` | ENUM | Nullable (motorcycle only): `sport`, `motocross`, `scooter` |
+| `type` | ENUM | Nullable (motorcycle only): `sport`, `motocross`, `scooter` |
 | `cargoCapacity` | INTEGER | Nullable (truck only) |
 | `deletedAt` | TIMESTAMP | Nullable, soft delete |
 
@@ -57,5 +57,5 @@ All types share the `vehicle` table. The `type` column (lowercase) discriminates
 #### Classification
 `electric`, `hybrid`, `gasoline`, `diesel`
 
-#### MotorcycleType (`type` on motorcycle)
+#### MotorcycleType (`type` column)
 `sport`, `motocross`, `scooter`
