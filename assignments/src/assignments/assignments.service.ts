@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Assignment } from './entities/assignment.entity';
 import { CreateAssignmentDto } from './dto/create-assignment.dto';
+import { UpdateAssignmentDto } from './dto/update-assignment.dto';
 import { AuditService } from '../audit/audit.service';
 import { VehiclesClientService } from '../common/clients/vehicles-client.service';
 
@@ -81,7 +82,7 @@ export class AssignmentsService {
   async update(
     userId: string,
     vehicleId: string,
-    updates: Partial<Pick<Assignment, 'isActive'>>,
+    updates: UpdateAssignmentDto,
   ): Promise<Assignment> {
     const assignment = await this.assignmentRepository.findOne({
       where: { userId, vehicleId },

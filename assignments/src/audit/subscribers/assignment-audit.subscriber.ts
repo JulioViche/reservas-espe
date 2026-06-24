@@ -1,5 +1,4 @@
 import {
-  DataSource,
   EntitySubscriberInterface,
   InsertEvent,
   RemoveEvent,
@@ -10,10 +9,6 @@ import { AuditLog, AuditAction } from '../entities/audit-log.entity';
 
 @EventSubscriber()
 export class AssignmentAuditSubscriber implements EntitySubscriberInterface<Assignment> {
-  constructor(dataSource: DataSource) {
-    dataSource.subscribers.push(this);
-  }
-
   listenTo() {
     return Assignment;
   }

@@ -12,6 +12,7 @@ import {
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { AssignmentsService } from './assignments.service';
 import { CreateAssignmentDto } from './dto/create-assignment.dto';
+import { UpdateAssignmentDto } from './dto/update-assignment.dto';
 import { Assignment } from './entities/assignment.entity';
 import { FleetResponseDto } from './dto/fleet-response.dto';
 import { AuditService } from '../audit/audit.service';
@@ -40,7 +41,7 @@ export class AssignmentsController {
   update(
     @Param('userId') userId: string,
     @Param('vehicleId') vehicleId: string,
-    @Body() updates: Partial<Pick<Assignment, 'isActive'>>,
+    @Body() updates: UpdateAssignmentDto,
   ): Promise<Assignment> {
     return this.assignmentsService.update(userId, vehicleId, updates);
   }
