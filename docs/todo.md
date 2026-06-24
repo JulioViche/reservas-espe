@@ -1,10 +1,26 @@
-- [x] Crear base de datos
-- [x] En application.yaml configurar credenciales
-- [x] En test/ crear una instanciaa de ZonaServicioImpl
-- [x] Implementar correctamente la acción de activar o desactivar ():
-  - Al desactivar la zona, los espacios también se desactivan
-  - Al activar la zona, los espacios también se activan
-  - Los espacios ocupados no se pueden desactivar y las zonas con al menos un espacio ocupado no se puede desactivar.
+# Project Todo
+
+## Microservicios
+- [x] Parking (Spring Boot 4.0.6)
+- [x] Users (Spring Boot 4.1.0 + Spring Security)
+- [x] Vehicles (NestJS 11)
+- [x] Assignments (NestJS 11)
+
+## Infraestructura
+- [x] Kong Gateway 3.9 (DB-less, declarative)
+- [x] Swagger UI unificado (puerto 3100)
+- [x] CORS habilitado en Kong
+- [x] Forward headers strategy (Spring Boot services)
+
+## Asignaciones (assignments)
+- [x] CRUD asignaciones (POST, PATCH, DELETE)
+- [x] Consulta de flota por propietario (GET /owner/:userId)
+- [x] Trazabilidad / auditoría (GET /audit/:userId/:vehicleId)
+- [x] UpdateAssignmentDto para Swagger
+- [x] AssignmentAuditSubscriber funcional
+
+## Pendientes / Mejoras
+- [ ] Debug: POST persons retorna 400 sin detalles de validación
 - [ ] Validar que los enum no sean case sensitive
-- [ ] Validar que las placas no se repitan
-- [ ] Validar que el año del vehiculo no sobrepase el año actual + 1
+- [ ] Agregar autenticación / JWT en Kong
+- [ ] Pruebas unitarias y de integración
