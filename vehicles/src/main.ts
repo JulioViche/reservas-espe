@@ -22,7 +22,7 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('swagger', app, document, {
+  SwaggerModule.setup('swagger-ui', app, document, {
     jsonDocumentUrl: '/api-docs',
   });
 

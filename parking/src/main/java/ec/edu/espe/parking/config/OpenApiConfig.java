@@ -21,7 +21,7 @@ public class OpenApiConfig {
                         .description("API para gestionar zonas y espacios de estacionamiento"))
                 .servers(List.of(
                         new Server()
-                                .url("http://localhost:3000")
+                                .url("http://localhost:3000/api/parking")
                                 .description("Kong Gateway")));
     }
 }

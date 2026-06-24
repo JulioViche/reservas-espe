@@ -1,6 +1,5 @@
 _format_version: "3.0"
 services:
-
   # ==================== Users API ====================
 
   - name: persons
@@ -59,7 +58,7 @@ services:
     routes:
       - name: parking-swagger-ui
         paths:
-          - /parking/swagger
+          - /parking/swagger-ui
         strip_path: true
   - name: parking-api-docs
     url: http://parking-api:8080/api-docs
@@ -74,7 +73,7 @@ services:
     routes:
       - name: users-swagger-ui
         paths:
-          - /users/swagger
+          - /users/swagger-ui
         strip_path: true
   - name: users-api-docs
     url: http://users-api:8081/api-docs
@@ -85,11 +84,11 @@ services:
         strip_path: true
 
   - name: vehicles-swagger-ui
-    url: http://vehicles-api:3000/swagger
+    url: http://vehicles-api:3000/swagger-ui
     routes:
       - name: vehicles-swagger-ui
         paths:
-          - /vehicles/swagger
+          - /vehicles/swagger-ui
         strip_path: true
   - name: vehicles-api-docs
     url: http://vehicles-api:3000/api-docs
@@ -106,16 +105,16 @@ services:
     routes:
       - name: parking-internal
         paths:
-          - /api/v1
-        strip_path: false
+          - /api/parking
+        strip_path: true
 
   - name: users-internal
     url: http://users-api:8081
     routes:
       - name: users-internal
         paths:
-          - /api/v1
-        strip_path: false
+          - /api/users
+        strip_path: true
 
   # ==================== Swagger UI Unificado ====================
 

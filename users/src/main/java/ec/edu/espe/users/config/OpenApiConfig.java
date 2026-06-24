@@ -21,7 +21,7 @@ public class OpenApiConfig {
                         .description("API para gestionar personas, usuarios y roles del sistema"))
                 .servers(List.of(
                         new Server()
-                                .url("http://localhost:3000")
+                                .url("http://localhost:3000/api/users")
                                 .description("Kong Gateway")));
     }
 }
