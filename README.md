@@ -43,6 +43,25 @@ graph TD
 | **Swagger UI** | swagger-api/swagger-ui | 8080 | — | Unified API docs at `:3100` |
 | **Kong** | kong:3.9 | 8000/8443 | — | API Gateway at `localhost:3000` |
 
+## Swagger UI
+
+### Unificado (recomendado)
+```
+http://localhost:3100
+```
+Muestra la documentación de los 4 microservicios en una sola interfaz.
+
+### Individual (por microservicio)
+
+| Servicio | Swagger UI | OpenAPI JSON |
+|----------|-----------|--------------|
+| Parking | `http://localhost:3000/parking/swagger-ui` | `http://localhost:3000/parking/api-docs` |
+| Users | `http://localhost:3000/users/swagger-ui` | `http://localhost:3000/users/api-docs` |
+| Vehicles | `http://localhost:3000/vehicles/swagger-ui` | `http://localhost:3000/vehicles/api-docs` |
+| Assignments | `http://localhost:3000/assignments/swagger-ui` | `http://localhost:3000/assignments/api-docs` |
+
+Cada servicio expone su propia UI interactiva a través del gateway. Los endpoints JSON (`/api-docs`) son consumidos por el Swagger UI unificado y también pueden usarse directamente desde herramientas como Postman o Insomnia.
+
 ## Quick Start
 
 ```bash
