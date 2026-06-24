@@ -51,6 +51,16 @@ services:
           - /vehicles
         strip_path: false
 
+  # ==================== Assignments API ====================
+
+  - name: assignments
+    url: http://assignments-api:3000
+    routes:
+      - name: assignments
+        paths:
+          - /assignments
+        strip_path: false
+
   # ==================== Swagger UI (Individual) ====================
 
   - name: parking-swagger-ui
@@ -96,6 +106,21 @@ services:
       - name: vehicles-api-docs
         paths:
           - /vehicles/api-docs
+        strip_path: true
+
+  - name: assignments-swagger-ui
+    url: http://assignments-api:3000/swagger-ui
+    routes:
+      - name: assignments-swagger-ui
+        paths:
+          - /assignments/swagger-ui
+        strip_path: true
+  - name: assignments-api-docs
+    url: http://assignments-api:3000/api-docs
+    routes:
+      - name: assignments-api-docs
+        paths:
+          - /assignments/api-docs
         strip_path: true
 
   # ==================== Rutas internas (para Swagger Try it out) ====================
