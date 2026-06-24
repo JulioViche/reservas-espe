@@ -121,6 +121,8 @@ services:
 
   swagger-ui:
     image: swaggerapi/swagger-ui
+    ports:
+      - "3100:8080"
     environment:
       URLS: '[
         {"name": "Parking", "url": "http://localhost:3000/parking/api-docs"},

@@ -142,11 +142,19 @@ services:
         strip_path: true
 
   # ==================== Swagger UI Unificado ====================
+  # Se accede directamente en http://localhost:3100
 
-  - name: swagger-hub
-    url: http://swagger-ui:8080
-    routes:
-      - name: swagger-hub
-        paths:
-          - /docs
-        strip_path: true
+plugins:
+  - name: cors
+    config:
+      origins:
+        - "*"
+      methods:
+        - GET
+        - POST
+        - PUT
+        - PATCH
+        - DELETE
+        - OPTIONS
+      headers:
+        - "*"
