@@ -35,7 +35,7 @@ public class SpaceRequestDto {
     @Schema(description = "Estado del espacio", example = "AVAILABLE", allowableValues = { "AVAILABLE", "OCCUPIED", "RESERVED", "MAINTENANCE" })
     private SpaceStatus status;
 
-    @NotNull(message = "El c\u00f3digo del espacio es obligatorio")
+    @NotNull(message = "El identificador de la zona es obligatorio")
     @Schema(description = "Identificador de la zona a la que pertenece", example = "123e4567-e89b-12d3-a456-426614174000")
     private UUID zoneId;
 }

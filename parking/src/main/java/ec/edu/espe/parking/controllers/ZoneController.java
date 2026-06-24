@@ -76,7 +76,7 @@ public class ZoneController {
     }
 
     @PatchMapping("/{id}/enabled")
-    @Operation(summary = "Cambiar estado de una zona", description = "Activa o desactiva una zona de estacionamiento")
+    @Operation(summary = "Cambiar estado de una zona", description = "Activa o desactiva una zona de estacionamiento. La desactivación se propaga en cascada a todos los espacios de la zona.")
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Estado cambiado exitosamente"),
             @ApiResponse(responseCode = "404", description = "Zona no encontrada")

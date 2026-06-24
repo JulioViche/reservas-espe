@@ -21,7 +21,7 @@ public class SpaceResponseDto {
     @Schema(description = "Identificador único del espacio")
     private UUID id;
 
-    @Schema(description = "Código único del espacio", example = "S-001")
+    @Schema(description = "Código único del espacio", example = "REG-01-001")
     private String code;
 
     @Schema(description = "Descripción del espacio", example = "Espacio cercano a la entrada")
@@ -42,7 +42,7 @@ public class SpaceResponseDto {
     @Schema(description = "Fecha de última actualización")
     private LocalDateTime updatedAt;
 
-    @Schema(description = "Identificador de la zona a la que pertenece")
+    @Schema(description = "Identificador de la zona a la que pertenece", example = "123e4567-e89b-12d3-a456-426614174000")
     private UUID zoneId;
 
     @Schema(description = "Nombre de la zona a la que pertenece", example = "Zona A")

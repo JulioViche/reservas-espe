@@ -16,9 +16,9 @@ public class PersonCreateResponseDto {
     @Schema(description = "Datos de la persona creada")
     private PersonResponseDto person;
 
-    @Schema(description = "Nombre de usuario generado", example = "jperez")
+    @Schema(description = "Nombre de usuario generado", example = "jcperez")
     private String username;
 
-    @Schema(description = "Contraseña generada automáticamente", example = "Abc123!xyz")
+    @Schema(description = "Contraseña generada automáticamente (14 caracteres alfanuméricos con caracteres especiales)", example = "Abc123!xyz$9mK")
     private String generatedPassword;
 }

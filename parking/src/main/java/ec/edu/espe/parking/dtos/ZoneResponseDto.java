@@ -21,7 +21,7 @@ public class ZoneResponseDto {
     @Schema(description = "Identificador único de la zona")
     private UUID id;
 
-    @Schema(description = "Código único de la zona", example = "Z-001")
+    @Schema(description = "Código único de la zona", example = "ZONE-REG-01")
     private String code;
 
     @Schema(description = "Nombre de la zona", example = "Zona A")

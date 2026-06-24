@@ -155,6 +155,18 @@ export class CreateVehicleDto {
         return VehicleDto;
     }
   })
-  @ApiProperty({ description: 'Datos específicos del vehículo según el tipo' })
+  @ApiProperty({
+    description: 'Datos específicos del vehículo según el tipo',
+    example: {
+      plate: 'ABC-1234',
+      brand: 'Toyota',
+      model: 'Corolla',
+      year: 2024,
+      color: 'Rojo',
+      classification: 'gasoline',
+      doors: 4,
+      trunkCapacity: 500,
+    },
+  })
   data!: CarDto | MotorcycleDto | TruckDto;
 }

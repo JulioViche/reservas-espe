@@ -9,7 +9,7 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam } from '@nestjs/swagger';
 import { AssignmentsService } from './assignments.service';
 import { CreateAssignmentDto } from './dto/create-assignment.dto';
 import { UpdateAssignmentDto } from './dto/update-assignment.dto';
@@ -29,6 +29,7 @@ export class AssignmentsController {
   @Post()
   @ApiOperation({ summary: 'Asignar vehículo a propietario' })
   @ApiResponse({ status: 201, description: 'Asignación creada exitosamente' })
+  @ApiResponse({ status: 400, description: 'Datos de entrada inválidos' })
   @ApiResponse({ status: 409, description: 'El vehículo ya está asignado' })
   create(@Body() dto: CreateAssignmentDto): Promise<Assignment> {
     return this.assignmentsService.create(dto);
@@ -36,7 +37,10 @@ export class AssignmentsController {
 
   @Patch(':userId/:vehicleId')
   @ApiOperation({ summary: 'Modificar asignación de vehículo' })
+  @ApiParam({ name: 'userId', description: 'Identificador del propietario', example: '123e4567-e89b-12d3-a456-426614174000' })
+  @ApiParam({ name: 'vehicleId', description: 'Identificador del vehículo', example: '123e4567-e89b-12d3-a456-426614174001' })
   @ApiResponse({ status: 200, description: 'Asignación modificada' })
+  @ApiResponse({ status: 400, description: 'Datos de entrada inválidos' })
   @ApiResponse({ status: 404, description: 'Asignación no encontrada' })
   update(
     @Param('userId') userId: string,
@@ -49,6 +53,8 @@ export class AssignmentsController {
   @Delete(':userId/:vehicleId')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({ summary: 'Eliminar asignación de vehículo' })
+  @ApiParam({ name: 'userId', description: 'Identificador del propietario', example: '123e4567-e89b-12d3-a456-426614174000' })
+  @ApiParam({ name: 'vehicleId', description: 'Identificador del vehículo', example: '123e4567-e89b-12d3-a456-426614174001' })
   @ApiResponse({ status: 204, description: 'Asignación eliminada' })
   @ApiResponse({ status: 404, description: 'Asignación no encontrada' })
   async remove(
@@ -60,6 +66,7 @@ export class AssignmentsController {
 
   @Get('owner/:userId')
   @ApiOperation({ summary: 'Consultar flota por propietario' })
+  @ApiParam({ name: 'userId', description: 'Identificador del propietario', example: '123e4567-e89b-12d3-a456-426614174000' })
   @ApiResponse({
     status: 200,
     description: 'Flota del propietario con detalles de vehículos',
@@ -71,6 +78,8 @@ export class AssignmentsController {
 
   @Get('audit/:userId/:vehicleId')
   @ApiOperation({ summary: 'Obtener trazabilidad de una asignación' })
+  @ApiParam({ name: 'userId', description: 'Identificador del propietario', example: '123e4567-e89b-12d3-a456-426614174000' })
+  @ApiParam({ name: 'vehicleId', description: 'Identificador del vehículo', example: '123e4567-e89b-12d3-a456-426614174001' })
   @ApiResponse({ status: 200, description: 'Historial de auditoría' })
   getAudit(
     @Param('userId') userId: string,
