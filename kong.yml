@@ -61,29 +61,14 @@ services:
           - /assignments
         strip_path: false
 
-  # ==================== Swagger UI (Individual) ====================
+  # ==================== API Docs (para Swagger unificado) ====================
 
-  - name: parking-swagger-ui
-    url: http://parking-api:8080/swagger-ui
-    routes:
-      - name: parking-swagger-ui
-        paths:
-          - /parking/swagger-ui
-        strip_path: true
   - name: parking-api-docs
     url: http://parking-api:8080/api-docs
     routes:
       - name: parking-api-docs
         paths:
           - /parking/api-docs
-        strip_path: true
-
-  - name: users-swagger-ui
-    url: http://users-api:8081/swagger-ui
-    routes:
-      - name: users-swagger-ui
-        paths:
-          - /users/swagger-ui
         strip_path: true
   - name: users-api-docs
     url: http://users-api:8081/api-docs
@@ -92,28 +77,12 @@ services:
         paths:
           - /users/api-docs
         strip_path: true
-
-  - name: vehicles-swagger-ui
-    url: http://vehicles-api:3000/swagger-ui
-    routes:
-      - name: vehicles-swagger-ui
-        paths:
-          - /vehicles/swagger-ui
-        strip_path: true
   - name: vehicles-api-docs
     url: http://vehicles-api:3000/api-docs
     routes:
       - name: vehicles-api-docs
         paths:
           - /vehicles/api-docs
-        strip_path: true
-
-  - name: assignments-swagger-ui
-    url: http://assignments-api:3000/swagger-ui
-    routes:
-      - name: assignments-swagger-ui
-        paths:
-          - /assignments/swagger-ui
         strip_path: true
   - name: assignments-api-docs
     url: http://assignments-api:3000/api-docs
@@ -140,9 +109,6 @@ services:
         paths:
           - /api/users
         strip_path: true
-
-  # ==================== Swagger UI Unificado ====================
-  # Se accede directamente en http://localhost:3100
 
 plugins:
   - name: cors

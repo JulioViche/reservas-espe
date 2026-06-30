@@ -149,7 +149,6 @@ services:
       - users-api
       - vehicles-api
       - assignments-api
-      - swagger-ui
 
 volumes:
   parking-db-data:
